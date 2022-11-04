@@ -4,6 +4,7 @@ import LoginPage from "./authPages/LoginPage/LoginPage";
 import RegisterPage from "./authPages/RegisterPage/RegisterPage";
 import DashBoard from "./Dashboard/DashBoard";
 import "./App.css";
+import AlertNotification from "./shared/Component/AlertNotification";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Navigate to="/dashboard" />} />
         </Routes>
       </BrowserRouter>
+      <AlertNotification />
     </>
   );
 }

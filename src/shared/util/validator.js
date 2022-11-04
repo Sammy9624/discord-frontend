@@ -9,7 +9,7 @@ export const validateRegisterForm = ({ mail, username, password }) => {
 
 };
 
-const validateMail = (mail) => {
+export const validateMail = (mail) => {
   const emailPattern =
     /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
   return emailPattern.test(mail);
