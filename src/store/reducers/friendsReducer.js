@@ -11,7 +11,7 @@ const reducer = (state = initialState, action) => {
     case friendsAction.SET_PENDING_REQUESTS:
       return {
         ...state,
-        pendingRequest: action.pendingRequest,
+        pendingRequest: action.pendingInvitation,
       };
     case friendsAction.SET_FRIENDS:
       return {
@@ -21,7 +21,7 @@ const reducer = (state = initialState, action) => {
     case friendsAction.SET_ONLINE_USERS:
       return {
         ...state,
-        onlineUsers: action.onlineUsers,
+        onlineUsers: action.onlineUser,
       };
     default:
       return state;

@@ -20,7 +20,7 @@ const AddFriendButton = () => {
   const closeDialogHandler = () => {
     setDialogOpen(false);
   };
-  
+
   return (
     <>
       <CustomPrimaryButton

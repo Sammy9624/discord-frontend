@@ -1,6 +1,5 @@
 import React from "react";
 import { Typography } from "@mui/material";
-import { fontSize } from "@mui/system";
 
 const FriendsTitle = ({ title }) => {
   return (
