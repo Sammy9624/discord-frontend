@@ -1,41 +1,24 @@
 import React from "react";
 import { styled } from "@mui/system";
 import FriendListItem from "./FriendListItem";
-
-const DUMMY_FRIENDS = [
-  {
-    id: 1,
-    username: "Jigar",
-    isOnline: true,
-  },
-  {
-    id: 2,
-    username: "Nidhi",
-    isOnline: false,
-  },
-  {
-    id: 3,
-    username: "Sam",
-    isOnline: false,
-  },
-  {
-    id: 4,
-    username: "Mark",
-    isOnline: true,
-  },
-];
+import { connect } from "react-redux";
 
 const MainContainer = styled("div")({
   flexGrow: 1,
   width: "100%",
 });
-const FriendsList = () => {
+const FriendsList = ({ friends, onlineUsers }) => {
+  const friendList = friends.map((f) => {
+    f.online = !!onlineUsers.find((user) => f.id === user.userId);
+    return f;
+  });
+
   return (
     <MainContainer>
-      {DUMMY_FRIENDS.map((ele) => {
+      {friendList?.map((ele) => {
         return (
           <FriendListItem
-            isOnline={ele.isOnline}
+            isOnline={ele.online}
             id={ele.id}
             username={ele.username}
             key={ele.id}
@@ -46,4 +29,10 @@ const FriendsList = () => {
   );
 };
 
-export default FriendsList;
+const mapStoreToProps = ({ friends }) => {
+  return {
+    ...friends,
+  };
+};
+
+export default connect(mapStoreToProps)(FriendsList);
