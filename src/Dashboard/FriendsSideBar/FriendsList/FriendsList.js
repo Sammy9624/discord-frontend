@@ -13,9 +13,10 @@ const FriendsList = ({ friends, onlineUsers }) => {
     return f;
   });
 
+  const onlineFirst = friendList.sort((a, b) => b.online - a.online);
   return (
     <MainContainer>
-      {friendList?.map((ele) => {
+      {onlineFirst?.map((ele) => {
         return (
           <FriendListItem
             isOnline={ele.online}
