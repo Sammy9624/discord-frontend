@@ -1,12 +1,32 @@
 import React from "react";
-import { styled } from "@mui/system";
+import { styled, width } from "@mui/system";
 import Avatar from "../../shared/Component/Avatar";
 import { Typography } from "@mui/material";
+import DateDivider from "../DateDivider";
+import dayjs from "dayjs";
+import { connect } from "react-redux";
 
-const MainContainer = styled("div")({
-  width: "97%",
-  display: "flex",
-  marginTop: "10px",
+const style = {
+  mainContainer: { width: "97%", display: "flex", marginTop: "10px" },
+  paragraph: {
+    padding: "10px",
+    margin: "7px 0 0 0",
+    wordBreak: "break-word",
+    maxWidth: "300px",
+    width: "fit-content",
+    background:
+      "linear-gradient(to left, #1f51ff, #4b51fa, #6352f4, #7553ef, #8454ea, #8558eb, #865deb, #8761ec, #7c68f2, #716ff7, #6476fb, #567cff);",
+    borderRadius: "10px",
+  },
+};
+
+const MainContainerDiff = styled("div")({
+  ...style.mainContainer,
+});
+
+const MainContainerSame = styled("div")({
+  ...style.mainContainer,
+  justifyContent: "end",
 });
 
 const AvatarContainer = styled("div")({
@@ -18,41 +38,103 @@ const MessageContainer = styled("div")({
   flexDirection: "column",
 });
 
-const MessageContent = styled("div")({
+const MessageContentSame = styled("p")({
   color: "#DCDDDE",
+  ...style.paragraph,
 });
 
-const SameAuthorMessageContent = styled("div")({
+const MessageContentSameDiff = styled("p")({
+  color: "#DCDDDE",
+  ...style.paragraph,
+});
+
+const SameAuthorMessageContentSameUser = styled("div")({
+  width: "97%",
+  color: "#DCDDDE",
+  display: "flex",
+  justifyContent: "end",
+});
+
+const SameAuthorMessageContentDiffUser = styled("div")({
   width: "97%",
   color: "#DCDDDE",
 });
 
-const SameAuthorMessageText = styled("div")({
+const SameAuthorMessageTextSameUser = styled("p")({
+  ...style.paragraph,
+});
+
+const SameAuthorMessageTextDiffUser = styled("p")({
+  ...style.paragraph,
   marginLeft: "70px",
 });
 
-const Message = ({ content, username, sameAuthor, date, sameDay }) => {
-  if (sameAuthor && sameDay) {
-    return (
-      <SameAuthorMessageContent>
-        <SameAuthorMessageText>{content}</SameAuthorMessageText>
-      </SameAuthorMessageContent>
-    );
-  }
-  return (
-    <MainContainer>
+const SingleSameUserMsg = styled("div")({
+  display: "flex",
+  justifyContent: "end",
+});
+
+const Message = ({ content, username, sameAuthor, date, sameDay, name }) => {
+
+  const innerBody = (
+    <>
       <AvatarContainer>
         <Avatar username={username} />
       </AvatarContainer>
       <MessageContainer>
         <Typography style={{ fontSize: "16px", color: "white" }}>
           {username}{" "}
-          <span style={{ fontSize: "12px", color: "#72767d" }}>{date}</span>
+          <span style={{ fontSize: "12px", color: "#72767d" }}>
+            {dayjs(date).format("DD/MM/YYYY")}
+          </span>
         </Typography>
-        <MessageContent>{content}</MessageContent>
+        {username === name ? (
+          <SingleSameUserMsg>
+            <MessageContentSame>{content}</MessageContentSame>
+          </SingleSameUserMsg>
+        ) : (
+          <MessageContentSameDiff>{content}</MessageContentSameDiff>
+        )}
       </MessageContainer>
-    </MainContainer>
+    </>
+  );
+
+  if (sameAuthor && sameDay) {
+    return (
+      <>
+        {username === name ? (
+          <SameAuthorMessageContentSameUser>
+            <SameAuthorMessageTextSameUser>
+              {content}
+            </SameAuthorMessageTextSameUser>
+          </SameAuthorMessageContentSameUser>
+        ) : (
+          <SameAuthorMessageContentDiffUser>
+            <SameAuthorMessageTextDiffUser>
+              {content}
+            </SameAuthorMessageTextDiffUser>
+          </SameAuthorMessageContentDiffUser>
+        )}
+      </>
+    );
+  }
+
+  return (
+    <>
+      {!sameDay && <DateDivider date={date} />}
+      {username === name ? (
+        <MainContainerSame>{innerBody}</MainContainerSame>
+      ) : (
+        <MainContainerDiff>{innerBody}</MainContainerDiff>
+      )}
+    </>
   );
 };
 
-export default Message;
+const mapStoreToProps = ({ auth }) => {
+  return {
+    name: auth?.userDetails?.username,
+  };
+};
+
+export default connect(mapStoreToProps)(Message);
