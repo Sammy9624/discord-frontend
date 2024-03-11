@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import MessageHeader from "./MessageHeader";
 import { styled } from "@mui/system";
 import { connect } from "react-redux";
@@ -44,26 +44,35 @@ const convertDateToHumanReadable = (date, format) => {
 };
 
 const Messages = ({ chosenChatDetails, message }) => {
-  const [scrolled, setScrolled] = useState(null);
-
+  const [top, setTop] = useState(null);
   const mainContainer = document.getElementById("main-container");
+  const container = document.getElementById("container");
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [message]);
+  //
+
+  const scrollToBottom = () => {
+    mainContainer?.scrollTo({
+      top: mainContainer.scrollHeight,
+      behavior: "smooth",
+    });
+  };
+
   mainContainer?.addEventListener("scroll", (value) => {
-    setScrolled(mainContainer.scrollTop);
+    setTop(mainContainer.scrollTop);
   });
 
   const scrollToTop = () => {
-    mainContainer.scrollTo({ top: 0, behavior: "smooth" });
+    container?.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
-  return (
-    <>
-      {scrolled > 200 && (
-        <ScrollTop>
-          <ScrollBtn onClick={scrollToTop}>
-            <KeyboardDoubleArrowUpIcon />
-          </ScrollBtn>
-        </ScrollTop>
-      )}
+  const MessageContainer = useMemo(
+    () => (
       <MainContainer id="main-container">
         <MessageHeader name={chosenChatDetails?.name} />
         {message?.map((msg, index) => {
@@ -91,6 +100,21 @@ const Messages = ({ chosenChatDetails, message }) => {
           );
         })}
       </MainContainer>
+    ),
+    [message]
+  );
+
+  return (
+    <>
+      {top > 200 && (
+        <ScrollTop>
+          <ScrollBtn onClick={scrollToTop}>
+            <KeyboardDoubleArrowUpIcon />
+          </ScrollBtn>
+        </ScrollTop>
+      )}
+      {MessageContainer}
+      <div id="container"></div>
     </>
   );
 };
