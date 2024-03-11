@@ -1,5 +1,5 @@
 import React from "react";
-import { styled, width } from "@mui/system";
+import { styled } from "@mui/system";
 import Avatar from "../../shared/Component/Avatar";
 import { Typography } from "@mui/material";
 import DateDivider from "../DateDivider";
