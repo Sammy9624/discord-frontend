@@ -1,0 +1,13 @@
+#main-container::-webkit-scrollbar {
+    width:5px;
+  }
+
+  #main-container::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 10px;
+  }
+
+
+ #main-container:hover::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+}
