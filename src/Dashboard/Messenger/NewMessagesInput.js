@@ -33,7 +33,7 @@ const NewMessagesInput = ({ chosenChatDetails }) => {
   };
 
   const onEnter = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === "Enter") {
       sendMessage();
     }
   };

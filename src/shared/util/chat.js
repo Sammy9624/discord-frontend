@@ -14,6 +14,7 @@ const updateDirectChatHistoryIfActive = (data) => {
 };
 
 const updateChatHistory = (participants, userInCon, messages) => {
+
   const result = participants.every(function (participantId) {
     return userInCon.includes(participantId);
   });
